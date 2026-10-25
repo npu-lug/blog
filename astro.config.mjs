@@ -11,6 +11,13 @@ export default defineConfig({
   markdown: {
       remarkPlugins: [remarkMath],
       rehypePlugins: [rehypeKatex],
+      // 同时输出浅色/深色两套着色，由 global.css 里的 [data-theme] 规则切换
+      shikiConfig: {
+        themes: {
+          light: 'github-light',
+          dark: 'github-dark',
+        },
+      },
   },
   integrations: [mdx(), sitemap()],
 });

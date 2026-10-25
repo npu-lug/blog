@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteLogo from "../components/SiteLogo.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 const githubUrl = "https://github.com/npu-lug"; // TODO: Replace with your org's GitHub URL
 ---
@@ -7,8 +8,7 @@ const githubUrl = "https://github.com/npu-lug"; // TODO: Replace with your org's
 <BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
   <main class="home-main">
     <div class="logo-container">
-      <!-- Replace placeholder with actual logo -->
-      <img src="/images/logo.svg" alt="NPULUG 标志" class="site-logo" />
+      <SiteLogo />
     </div>
     <nav class="home-nav">
       <a href="/blog">博客</a>
@@ -35,20 +35,6 @@ const githubUrl = "https://github.com/npu-lug"; // TODO: Replace with your org's
     margin-bottom: var(--spacing-xxl);
   }
 
-  .site-logo {
-    width: 50vw; /* Adjust width as needed */
-    height: auto; /* Maintain aspect ratio */
-    max-height: 200px; /* Optional: Limit height */
-    display: block; /* Ensure it behaves as a block element */
-    margin: 0 auto; /* Center if needed within container */
-  }
-
-  @media (max-width: 768px) {
-    .site-logo {
-      width: 80vw;
-    }
-  }
-
   .home-nav {
     display: flex;
     gap: var(--spacing-lg);
@@ -66,7 +52,7 @@ const githubUrl = "https://github.com/npu-lug"; // TODO: Replace with your org's
   }
   .home-nav a:hover {
     background-color: var(--color-primary);
-    color: var(--color-background);
+    color: var(--color-primary-contrast);
     border-color: var(--color-primary);
   }
 </style>

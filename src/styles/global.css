@@ -5,6 +5,8 @@
  */
 
 :root {
+  color-scheme: light;
+
   --font-family-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
     sans-serif;
@@ -16,11 +18,13 @@
   --color-text: #333;
   --color-background: #fff;
   --color-primary: #007bff;
+  --color-primary-contrast: #fff;
   --color-secondary: #6c757d;
   --color-accent: #ffc107;
   --color-border: #eee;
   --color-footer-bg: #f8f9fa;
   --color-footer-text: #6c757d;
+  --color-shadow: rgba(0, 0, 0, 0.08);
 
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
@@ -39,9 +43,41 @@
   --gray: 96, 115, 159;
   --gray-light: 229, 233, 240;
   --gray-dark: 34, 41, 57;
-  --gray-gradient: rgba(var(--gray-light), 50%), #fff;
+  --gray-gradient: rgba(var(--gray-light), 50%), var(--color-background);
   --box-shadow: 0 2px 6px rgba(var(--gray), 25%),
     0 8px 24px rgba(var(--gray), 33%), 0 16px 32px rgba(var(--gray), 33%);
+}
+
+/*
+  深色主题：跟随系统偏好。
+ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    --color-text: #dde1e8;
+    --color-background: #12151c;
+    --color-primary: #58a6ff;
+    --color-primary-contrast: #0b0e13;
+    --color-secondary: #9aa5b8;
+    --color-accent: #ffc107;
+    --color-border: #2b3240;
+    --color-footer-bg: #171b24;
+    --color-footer-text: #9aa5b8;
+    --color-shadow: rgba(0, 0, 0, 0.5);
+
+    /* 正文链接色：浅色主题用的 #08519f 在深色背景上几乎不可读 */
+    --accent: #7cc0ff;
+    --accent-dark: #a6d4ff;
+
+    /* --black 作为标题颜色使用：rgb(var(--black)) */
+    --black: 226, 231, 240;
+    /* --gray-light 作为代码底色与分隔线：rgb(var(--gray-light)) */
+    --gray-light: 43, 50, 64;
+    --gray-gradient: rgba(var(--gray), 12%), var(--color-background);
+    --box-shadow: 0 2px 6px rgba(0, 0, 0, 45%), 0 8px 24px rgba(0, 0, 0, 55%),
+      0 16px 32px rgba(0, 0, 0, 55%);
+  }
 }
 body {
   font-family: var(--font-family-sans), var(--font-family-cjk);
@@ -53,12 +89,20 @@ body {
   flex-direction: column;
   min-height: 100vh;
   text-align: left;
-  background: linear-gradient(var(--gray-gradient)) no-repeat;
+  background-image: linear-gradient(var(--gray-gradient));
+  background-repeat: no-repeat;
   background-size: 100% 600px;
   word-wrap: break-word;
   overflow-wrap: break-word;
   font-size: 20px;
   line-height: 1.7;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    transition: none;
+  }
 }
 main {
   flex-grow: 1;
@@ -132,6 +176,7 @@ code {
 pre {
   padding: 1.5em;
   border-radius: 8px;
+  border: 1px solid var(--color-border);
 }
 pre > code {
   all: unset;
@@ -240,4 +285,19 @@ footer {
   color: var(--color-primary);
   background-color: var(--color-footer-bg);
   border-color: var(--color-primary);
+}
+
+/*
+  Shiki 双主题：astro.config.mjs 同时输出 github-light / github-dark，
+  每个 token 带 --shiki-light / --shiki-dark 变量，深色偏好下整体切换到后者。
+ */
+@media (prefers-color-scheme: dark) {
+  .astro-code,
+  .astro-code span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+    text-decoration: var(--shiki-dark-text-decoration) !important;
+  }
 }
